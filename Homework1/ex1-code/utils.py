@@ -6,6 +6,15 @@ import os
 
 # draw flows and capacities
 def draw_all(G, save_fig=True):
+    """
+    Draw the graph G with flow and capacity attributes.
+
+    Parameters:
+    - G: NetworkX graph object
+        The graph to be drawn.
+    - save_fig: bool, optional (default=True)
+        Whether to save the figure as an image file.
+    """
     # create labels
     edge_labels = list(G.edges(data=True))
     format = lambda data : f"flow = {data['flow']}\ncapacity = {data['capacity']}"
@@ -27,20 +36,20 @@ def draw_all(G, save_fig=True):
 
 # functions which can be useful
 def draw(G, attribute='name', save_fig=True):
+    """
+    Draw a graph with optional edge labels and save it as a PNG file.
 
+    Parameters:
+    - G (networkx.Graph): The graph to be drawn.
+    - attribute (str): The attribute to be used as edge labels (default: 'name').
+    - save_fig (bool): Whether to save the figure as a PNG file (default: True).
+    """
     # set up color_mapping and pos
     color_mapping = nx.get_node_attributes(G, 'color').values()
     layout = nx.get_node_attributes(G, 'pos')
 
     # set up edge_labels
-    edge_attributes = nx.get_edge_attributes(G, attribute)
-
-    # create labels
-    format = lambda data : f"{attribute} = {data}"
-    edge_labels = {
-        edge: format(data)
-        for edge, data in edge_attributes.items()
-    }
+    edge_labels = nx.get_edge_attributes(G, attribute)
 
     # draw graph with edge labels
     nx.draw(G, layout, node_color=color_mapping, with_labels=True)
@@ -53,6 +62,17 @@ def draw(G, attribute='name', save_fig=True):
     plt.show()
 
 def update_edge_flows(G, source='o', dest='d'):
+    """
+    Update the edge flows in a network graph.
+
+    Parameters:
+    - G (networkx.Graph): The network graph.
+    - source (str): The source node.
+    - dest (str): The destination node.
+
+    Returns:
+    - edge_flows (dict): A dictionary where keys are edges and values are flows.
+    """
     # find maximum flow
     max_flow = nx.maximum_flow(G, source, dest)
 
@@ -69,8 +89,17 @@ def update_edge_flows(G, source='o', dest='d'):
     # return them
     return edge_flows
 
-
 def update_residual_capacities(G, source='o', dest='d'):
+    """Update residual capacities of edges in G
+
+    Args:
+        G (nx.DiGraph): graph
+        source (str, optional): source node. Defaults to 'o'.
+        dest (str, optional): destination node. Defaults to 'd'.
+
+    Returns:
+        dict: dictionary of residual capacities of edges
+    """
     edge_flows = nx.get_edge_attributes(G, 'flow')
     edge_capacities = nx.get_edge_attributes(G, 'capacity')
 
@@ -87,6 +116,12 @@ def update_residual_capacities(G, source='o', dest='d'):
     return residual_capacities
 
 def create_G():
+    """
+    Creates a directed graph G with predefined nodes, edges, attributes, and capacities.
+
+    Returns:
+    G (networkx.DiGraph): The created directed graph.
+    """
     # create graph
     G = nx.DiGraph()
 

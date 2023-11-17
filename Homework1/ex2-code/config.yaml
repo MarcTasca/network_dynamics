@@ -1,0 +1,31 @@
+book_copies:
+  b1: 2
+  b2: 3
+  b3: 2
+  b4: 2
+books:
+- b1
+- b2
+- b3
+- b4
+interests:
+  p1:
+  - b1
+  - b2
+  p2:
+  - b2
+  - b3
+  p3:
+  - b1
+  - b4
+  p4:
+  - b1
+  - b2
+  - b4
+people:
+- p1
+- p2
+- p3
+- p4
+sink: d
+source: o
