@@ -33,7 +33,14 @@ def draw(G, attribute='name', save_fig=True):
     layout = nx.get_node_attributes(G, 'pos')
 
     # set up edge_labels
-    edge_labels = nx.get_edge_attributes(G, attribute)
+    edge_attributes = nx.get_edge_attributes(G, attribute)
+
+    # create labels
+    format = lambda data : f"{attribute} = {data}"
+    edge_labels = {
+        edge: format(data)
+        for edge, data in edge_attributes.items()
+    }
 
     # draw graph with edge labels
     nx.draw(G, layout, node_color=color_mapping, with_labels=True)
